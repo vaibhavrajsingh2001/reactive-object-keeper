@@ -14,7 +14,7 @@ connectDB();
 app.use(express.json({ extended: false })); // converts req.body to json
 
 // index page
-app.get("/", (req, res) => res.json({ msg: "Welcome to contact keeper" }));
+app.get("/", (req, res) => res.json({ msg: "Welcome to object keeper" }));
 
 // routes (in ./src/routes)
 app.use("/api/users", userRouter);
