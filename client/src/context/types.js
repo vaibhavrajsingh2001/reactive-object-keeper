@@ -1,0 +1,9 @@
+export const ADD_OBJECT = 'ADD_OBJECT';
+export const DELETE_OBJECT = 'DELETE_OBJECT';
+export const SET_CURRENT = 'SET_CURRENT';
+export const CLEAR_CURRENT = 'CLEAR_CURRENT';
+export const UPDATE_OBJECT = 'UPDATE_OBJECT';
+export const FILTER_OBJECTS = 'FILTER_OBJECTS';
+export const CLEAR_FILTER = 'CLEAR_FILTER';
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
