@@ -1,7 +1,7 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ObjectItem from './ObjectItem';
-import ObjectContext from "../../context/object/objectContext";
+import ObjectContext from '../../context/object/objectContext';
 
 const Objects = () => {
     const objectContext = useContext(ObjectContext);

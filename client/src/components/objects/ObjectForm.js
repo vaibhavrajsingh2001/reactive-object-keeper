@@ -51,7 +51,7 @@ const ObjectForm = () => {
 
     return (
         <form onSubmit={onSubmit}>
-            <h2 className="text-primary">
+            <h2 className='text-primary'>
                 {current ? 'Edit Object' : 'Add Object'}
             </h2>
             <input
@@ -77,9 +77,9 @@ const ObjectForm = () => {
             />
             <div>
                 <input
-                    type="submit"
+                    type='submit'
                     value={current ? 'Edit object' : 'Add Object'}
-                    className="btn btn-primary btn-block"
+                    className='btn btn-primary btn-block'
                 />
             </div>
             {current && (

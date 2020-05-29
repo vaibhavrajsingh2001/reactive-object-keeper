@@ -13,22 +13,22 @@ const ObjectItem = ({ object }) => {
 
     const { id, name, location, extras } = object;
     return (
-        <div className="card bg-light">
-            <span className="text-primary text-left">{name}</span>
-            <ul className="list">
+        <div className='card bg-light'>
+            <span className='text-primary text-left'>{name}</span>
+            <ul className='list'>
                 <li>
-                    <i className="fas fa-search-location"></i> <b>Location:</b>
+                    <i className='fas fa-search-location'></i> <b>Location:</b>
                      &nbsp; {location}
                 </li>
                 {extras && (
                     <li>
-                        <i className="fas fa-receipt"></i> <b>Extras:</b>{' '}
+                        <i className='fas fa-receipt'></i> <b>Extras:</b>{' '}
                         {extras}
                     </li>
                 )}
             </ul>
-            <button className="btn btn-success btn-sm" onClick={() => setCurrent(object)}>Edit</button>
-            <button className="btn btn-danger btn-sm" onClick={onDelete}>
+            <button className='btn btn-success btn-sm' onClick={() => setCurrent(object)}>Edit</button>
+            <button className='btn btn-danger btn-sm' onClick={onDelete}>
                 Delete
             </button>
         </div>

@@ -8,6 +8,7 @@ const User = require("../models/User");
 
 const authRouter = express.Router();
 
+// get details of a user
 authRouter.get("/", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
@@ -19,6 +20,7 @@ authRouter.get("/", auth, async (req, res) => {
     }
 });
 
+// login and get a token
 authRouter.post(
     "/",
     [
