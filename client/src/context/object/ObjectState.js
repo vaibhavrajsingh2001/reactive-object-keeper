@@ -26,7 +26,8 @@ const ObjectState = (props) => {
         objects: null,
         current: null,
         filtered: null,
-        error: null
+        error: null,
+        loading: true
     };
 
     const [state, dispatch] = useReducer(objectReducer, initialState);
@@ -56,9 +57,29 @@ const ObjectState = (props) => {
         }
     };
 
+    // Update object
+    const updateObject = async (object) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.put(`/api/objects/${object._id}`, object, config);
+            dispatch({ type: UPDATE_OBJECT, payload: res.data });
+        } catch (err) {
+            dispatch({ type: OBJECT_ERROR, payload: err.response.msg });
+        }
+    };
+
     // Delete object
-    const deleteObject = (id) => {
-        dispatch({ type: DELETE_OBJECT, payload: id });
+    const deleteObject = async (id) => {
+        try {
+            await axios.delete(`/api/objects/${id}`);
+            dispatch({ type: DELETE_OBJECT, payload: id });
+        } catch (err) {
+            dispatch({ type: OBJECT_ERROR, payload: err.response.msg });
+        }
     };
 
     // Set current object
@@ -71,10 +92,10 @@ const ObjectState = (props) => {
         dispatch({ type: CLEAR_CURRENT });
     };
 
-    // Update object
-    const updateObject = (object) => {
-        dispatch({ type: UPDATE_OBJECT, payload: object });
-    };
+    // Clear all objects from state
+    const clearObjects = () => {
+        dispatch({ type: CLEAR_OBJECTS });
+    }
 
     // Filter objects
     const filterObjects = (text) => {
@@ -93,12 +114,14 @@ const ObjectState = (props) => {
                 current: state.current,
                 filtered: state.filtered,
                 error: state.error,
+                loading: state.loading,
                 getObjects,
                 addObject,
                 updateObject,
                 deleteObject,
                 setCurrent,
                 clearCurrent,
+                clearObjects,
                 filterObjects,
                 clearFilter
             }}

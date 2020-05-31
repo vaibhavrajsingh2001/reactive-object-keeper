@@ -7,11 +7,11 @@ const ObjectItem = ({ object }) => {
     const { deleteObject, setCurrent, clearCurrent } = objectContext;
 
     const onDelete = () => {
-        deleteObject(id);
+        deleteObject(_id);
         clearCurrent();
     };
 
-    const { id, name, location, extras } = object;
+    const { _id, name, location, extras } = object;
     return (
         <div className='card bg-light'>
             <span className='text-primary text-left'>{name}</span>
@@ -28,9 +28,7 @@ const ObjectItem = ({ object }) => {
                 )}
             </ul>
             <button className='btn btn-success btn-sm' onClick={() => setCurrent(object)}>Edit</button>
-            <button className='btn btn-danger btn-sm' onClick={onDelete}>
-                Delete
-            </button>
+            <button className='btn btn-danger btn-sm' onClick={onDelete}>Delete</button>
         </div>
     )
 }

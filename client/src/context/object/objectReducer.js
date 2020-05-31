@@ -22,19 +22,19 @@ export default (state, action) => {
         case ADD_OBJECT:
             return {
                 ...state,
-                objects: [...state.objects, action.payload],
+                objects: [action.payload, ...state.objects],
                 loading: false
             };
         case UPDATE_OBJECT:
             return {
                 ...state,
-                objects: state.objects.map(obj => obj.id === action.payload.id ? action.payload : obj),
+                objects: state.objects.map(obj => obj._id === action.payload._id ? action.payload : obj),
                 loading: false
             }
         case DELETE_OBJECT:
             return {
                 ...state,
-                objects: state.objects.filter(obj => obj.id !== action.payload),
+                objects: state.objects.filter(obj => obj._id !== action.payload),
                 loading: false
             };
         case SET_CURRENT:
@@ -61,6 +61,13 @@ export default (state, action) => {
                 ...state,
                 filtered: null
             };
+        case CLEAR_OBJECTS:
+            return {
+                ...state,
+                objects: null,
+                filtered: null,
+                error: null
+            }
         case OBJECT_ERROR:
             return {
                 ...state,

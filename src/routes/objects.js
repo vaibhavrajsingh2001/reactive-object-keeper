@@ -61,7 +61,7 @@ objectsRouter.put("/:id", auth, async (req, res) => {
     const objectData = {};
     if (name) objectData.name = name;
     if (location) objectData.location = location;
-    if (extras) objectData.extras = extras;
+    if (extras !== null) objectData.extras = extras;
 
     try {
         // first we extract the object from DB to do some checks
