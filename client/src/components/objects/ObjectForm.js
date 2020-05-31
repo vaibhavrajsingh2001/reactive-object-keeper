@@ -3,11 +3,13 @@ import ObjectContext from '../../context/object/objectContext'
 
 const ObjectForm = () => {
     const objectContext = useContext(ObjectContext);
-    const { addObject, current, clearCurrent, updateObject } = objectContext;
+    const { addObject, current, clearCurrent, updateObject, setCurrent } = objectContext;
 
     // loads the current object inside the form
     useEffect(() => {
         if (current !== null) {
+            // if we're editing an object then that will be
+            // out current object, so we fill up the form's object with it
             setObject(current);
         } else {
             setObject({
@@ -36,6 +38,7 @@ const ObjectForm = () => {
             addObject(object);
         } else {
             updateObject(object);
+            setCurrent(object);
         }
         // new object added to global context
         setObject({

@@ -1,6 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 
-const Login = () => {
+const Login = (props) => {
+    const authContext = useContext(AuthContext);
+    const { login, error, clearErrors, isAuthenticated } = authContext;
+
+    const alertContext = useContext(AlertContext);
+    const { setAlert } = alertContext;
+
+    // directly load home page if user is already logged in
+    useEffect(() => {
+        if(isAuthenticated) {
+            // next line is for reditrecting. Brings in history.
+            props.history.push('/');
+        }
+        if(error === 'Invalid credentials') {
+            setAlert(error, 'danger');
+            clearErrors();
+        }
+        // eslint-disable-next-line
+    }, [error, isAuthenticated, props.history]);
+
     const [user, setUser] = useState({
         email: '',
         password: '',
@@ -12,7 +33,14 @@ const Login = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log('Login submit');
+        if (email === '' || password === '') {
+            setAlert('Please fill in all fields', 'danger');
+        } else {
+            login({
+                email,
+                password
+            });
+        }
     };
 
     return (
@@ -27,6 +55,7 @@ const Login = () => {
                         type='email'
                         name='email'
                         value={email}
+                        required
                         onChange={onChange}
                     />
                     <label htmlFor='password'>Password</label>
@@ -34,12 +63,13 @@ const Login = () => {
                         type='password'
                         name='password'
                         value={password}
+                        required
                         onChange={onChange}
                     />
                 </div>
                 <input
                     type='submit'
-                    value='Register'
+                    value='Login'
                     className='btn btn-primary btn-block'
                 />
             </form>

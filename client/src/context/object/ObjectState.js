@@ -1,15 +1,18 @@
 import React, { useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import ObjectContext from './objectContext';
 import objectReducer from './objectReducer';
 import {
+    GET_OBJECTS,
     ADD_OBJECT,
     DELETE_OBJECT,
+    CLEAR_OBJECTS,
     SET_CURRENT,
     CLEAR_CURRENT,
     UPDATE_OBJECT,
     FILTER_OBJECTS,
     CLEAR_FILTER,
+    OBJECT_ERROR
 } from '../types';
 
 /*
@@ -20,36 +23,37 @@ filtered: an array of object to show while user sarches all objects (filtered co
 */
 const ObjectState = (props) => {
     const initialState = {
-        objects: [
-            {
-                id: 1,
-                name: 'specs',
-                location: 'Inside bag',
-                extras: 'Keep it in the dabba',
-            },
-            {
-                id: 2,
-                name: 'laptop',
-                location: 'In office',
-                extras: 'Keep it with charger',
-            },
-            {
-                id: 3,
-                name: 'diary',
-                location: 'On bed rack',
-                extras: 'Keep it with bookmark intact',
-            },
-        ],
+        objects: null,
         current: null,
-        filtered: null
+        filtered: null,
+        error: null
     };
 
     const [state, dispatch] = useReducer(objectReducer, initialState);
 
+    // Get all objects
+    const getObjects = async () => {
+        try {
+            const res = await axios.get('/api/objects');
+            dispatch({ type: GET_OBJECTS, payload: res.data });
+        } catch (err) {
+            dispatch({ type: OBJECT_ERROR, payload: err.response.msg });
+        }
+    };
+
     // Add object
-    const addObject = (object) => {
-        object.id = uuidv4();
-        dispatch({ type: ADD_OBJECT, payload: object });
+    const addObject = async (object) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.post('/api/objects', object, config);
+            dispatch({ type: ADD_OBJECT, payload: res.data });
+        } catch (err) {
+            dispatch({ type: OBJECT_ERROR, payload: err.response.msg });
+        }
     };
 
     // Delete object
@@ -88,6 +92,8 @@ const ObjectState = (props) => {
                 objects: state.objects,
                 current: state.current,
                 filtered: state.filtered,
+                error: state.error,
+                getObjects,
                 addObject,
                 updateObject,
                 deleteObject,

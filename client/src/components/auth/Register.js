@@ -2,19 +2,24 @@ import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
 
-const Register = () => {
+const Register = (props) => {
     const alertContext = useContext(AlertContext);
     const { setAlert } = alertContext;
 
     const authContext = useContext(AuthContext);
-    const { register, error, clearErrors } = authContext;
+    const { register, error, clearErrors, isAuthenticated } = authContext;
 
+    // directly load home page if user is already logged in
     useEffect(() => {
+        if(isAuthenticated) {
+            props.history.push('/');
+        }
         if(error === 'User already exists! Enter a different email.') {
             setAlert(error, 'danger');
             clearErrors();
         }
-    });
+        // eslint-disable-next-line
+    }, [error, isAuthenticated, props.history]);
 
     // component level state
     const [user, setUser] = useState({

@@ -28,6 +28,7 @@ objectsRouter.post(
         check("location", "Location is required.").not().isEmpty(),
     ],
     async (req, res) => {
+        // check middleware validation
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });

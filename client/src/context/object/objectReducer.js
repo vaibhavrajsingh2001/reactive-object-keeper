@@ -1,29 +1,41 @@
 import {
+    GET_OBJECTS,
     ADD_OBJECT,
     DELETE_OBJECT,
+    CLEAR_OBJECTS,
     SET_CURRENT,
     CLEAR_CURRENT,
     UPDATE_OBJECT,
     FILTER_OBJECTS,
-    CLEAR_FILTER
+    CLEAR_FILTER,
+    OBJECT_ERROR
 } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
+        case GET_OBJECTS:
+            return {
+                ...state,
+                objects: action.payload,
+                loading: false
+            };
         case ADD_OBJECT:
             return {
                 ...state,
-                objects: [...state.objects, action.payload]
+                objects: [...state.objects, action.payload],
+                loading: false
             };
         case UPDATE_OBJECT:
             return {
                 ...state,
-                objects: state.objects.map(obj => obj.id === action.payload.id ? action.payload : obj)
+                objects: state.objects.map(obj => obj.id === action.payload.id ? action.payload : obj),
+                loading: false
             }
         case DELETE_OBJECT:
             return {
                 ...state,
-                objects: state.objects.filter(obj => obj.id !== action.payload)
+                objects: state.objects.filter(obj => obj.id !== action.payload),
+                loading: false
             };
         case SET_CURRENT:
             return {
@@ -48,6 +60,11 @@ export default (state, action) => {
             return {
                 ...state,
                 filtered: null
+            };
+        case OBJECT_ERROR:
+            return {
+                ...state,
+                error: action.payload
             };
         default:
             return state;
